@@ -1,0 +1,36 @@
+﻿<Window x:Class="Auctions.AddCustomers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Auctions"
+        mc:Ignorable="d"
+        Title="AddCustomers" 
+        Height="{Binding SystemParameters.PrimaryScreenHeight}" 
+        Width="{Binding SystemParameters.PrimaryScreenWidth}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="3.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1">
+            <Label Grid.Column="1" Content="Imie"></Label>
+            <TextBox x:Name="textBox_Imie" Grid.Column="1" Height="20" ></TextBox>
+            <Label Grid.Column="1" Content="Nazwisko"></Label>
+            <TextBox x:Name="textBox_Nazwisko" Grid.Column="1" Height="20" ></TextBox>
+            <Label Grid.Column="1" Content="Adres"></Label>
+            <TextBox x:Name="textBox_Adres" Grid.Column="1" Height="20" ></TextBox>
+            <Label Grid.Column="1" Content="Data urodzenia"></Label>
+            <DatePicker x:Name="dataPicker_DataUrodzenia"></DatePicker>
+            <Button Grid.Column="1" Content="Dodaj" Height="20" Click="buttonClick_AddCustomersDodaj"></Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <DataGrid x:Name="dataGridAddCustomer" Height ="140" Margin="20"/>
+        </StackPanel>
+        <Button Grid.Row="1" Height="30" VerticalAlignment="Bottom" Content="Wyjście" Click="buttonClick_AddCustomersWyjscie"></Button>
+    </Grid>
+</Window>
