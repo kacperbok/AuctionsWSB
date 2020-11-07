@@ -223,26 +223,35 @@ namespace Auctions
             {
                 if (comboBox_licytujacy.SelectedItem != null)
                 {
-                    ItemCurrentPrice = _itemNewBid;
-                    label_obecnaCena.Content = _itemNewBid.ToString();
                     BiddingPerson = comboBox_licytujacy.Text;
-                    if (BiddingPerson == label_najwyzszaOferta.Content)
+                    if (BiddingPerson != ItemOwner)
                     {
-                        BidCounter++;
-                        SetNewSoldPrice();
-                        CheckSetWinner();
-                        if (WinFlag == true)
-                        {              
-                            Thread.Sleep(2000);
-                            AuctionsMain newWindow = new AuctionsMain();
-                            this.Close();
-                            newWindow.Show();
+                        ItemCurrentPrice = _itemNewBid;
+                        label_obecnaCena.Content = _itemNewBid.ToString();
+
+                        if (BiddingPerson == label_najwyzszaOferta.Content)
+                        {
+                            BidCounter++;
+                            SetNewSoldPrice();
+                            CheckSetWinner();
+                            if (WinFlag == true)
+                            {
+                                Thread.Sleep(1000);
+                                AuctionsMain newWindow = new AuctionsMain();
+                                this.Close();
+                                newWindow.Show();
+                            }
+                        }
+                        else
+                        {
+                            BidCounter = 0;
                         }
                     }
                     else
                     {
-                        BidCounter = 0;
+                        System.Windows.MessageBox.Show("Właściciel nie może licytować swojego przedmiotu.");
                     }
+
                     label_najwyzszaOferta.Content = BiddingPerson;
                 }
                 else
