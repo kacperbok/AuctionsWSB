@@ -73,7 +73,6 @@
     <Compile Include="AddItem.xaml.cs">
       <DependentUpon>AddItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Auction.cs" />
     <Compile Include="AuctionsDataBaseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
