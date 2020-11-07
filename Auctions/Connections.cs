@@ -16,10 +16,9 @@ namespace Auctions
         public static readonly string customersTableName = "TBL_CUSTOMERS";
         public static readonly string itemsTableName = "TBL_ITEMS";
         public static readonly string customersFirstNameColumn = "CUSTOMER_FIRSTNAME";
-
-
-
         public static SqlConnection DataBaseConnection = new SqlConnection(connectionString);
+
+
 
         public static void OpenSqlConnection()
         {
@@ -75,7 +74,6 @@ namespace Auctions
                 Adapter.Update(Table);
                 Adapter.Fill(Table);
                 gridName.ItemsSource = Table.DefaultView;
-
             }
             catch (Exception ex)
             {
@@ -93,8 +91,7 @@ namespace Auctions
 
             string query = "INSERT INTO TBL_CUSTOMERS (CUSTOMER_FIRSTNAME,CUSTOMER_LASTNAME,CUSTOMER_ADDRESS,CUSTOMER_BIRTHDAYDATE) VALUES (@firstname, @lastname, @address, @date)";
             SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(customersTableName);
+
 
             if (string.IsNullOrEmpty(customer.FirstName))
             {
@@ -147,27 +144,18 @@ namespace Auctions
                 }
                 finally
                 {
-                   
-                }
-                    
+                    DataBaseConnection.Close();
+                }         
             }
         }
 
-        public static int CheckIfNotString(int text)
-        {
-            int correctNumber;
-            int.TryParse(text.ToString(), out correctNumber);
-            return correctNumber;
-            
-        }
         public static void InsertToItemsTable(Item item)
         {
             OpenSqlConnection();
 
             string query = "INSERT INTO TBL_ITEMS (ITEM_NAME, ITEM_DESCRIPTION,ITEM_STARTPRICE,ITEM_MINIMALPRICE,ITEM_OWNER, ITEM_CUSTOMER_ID, ITEM_ISSOLD) VALUES (@itemname, @description, @startprice, @minimalprice, @owner, @ownerid, 0)";
             SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(customersTableName);
+
 
             if (string.IsNullOrEmpty(item.Name))
             {
@@ -211,6 +199,10 @@ namespace Auctions
                     System.Windows.MessageBox.Show("" + ex);
                     throw;
                 }
+                finally
+                {
+                    DataBaseConnection.Close();
+                }
             }                      
     }
             
@@ -218,106 +210,213 @@ namespace Auctions
         public static void FillComboBox(string columnName, string tableName, System.Windows.Controls.ComboBox comboBoxName)
         {
             OpenSqlConnection();
-            comboBoxName.Items.Clear();
-            string query = "SELECT " + columnName + " FROM " + tableName;
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(tableName);
-            Adapter.Fill(Table);
 
-            foreach (DataRow dataRow in Table.Rows)
+            try
             {
-                comboBoxName.Items.Add(dataRow[columnName].ToString());
+                comboBoxName.Items.Clear();
+                string query = "SELECT " + columnName + " FROM " + tableName;
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
+                DataTable Table = new DataTable(tableName);
+                Adapter.Fill(Table);
+
+                foreach (DataRow dataRow in Table.Rows)
+                {
+                    comboBoxName.Items.Add(dataRow[columnName].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
             }
         }
         
         public static int GetCustomerID(Item item)
         {
-                OpenSqlConnection();
+            OpenSqlConnection();
 
+            try
+            {
                 string query = "SELECT CUSTOMER_ID FROM TBL_CUSTOMERS WHERE CUSTOMER_FIRSTNAME = '" + item.Owner + "'";
                 SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
                 SqlDataReader Reader = SqlCmd.ExecuteReader();
                 Reader.Read();
                 int itemCustomerID = Reader.GetInt32(0);
                 return itemCustomerID;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }    
         }
 
         public static int GetCustomerID(Customer customer)
         {
             OpenSqlConnection();
 
-            string query = "SELECT CUSTOMER_ID FROM TBL_CUSTOMERS WHERE CUSTOMER_FIRSTNAME = '" + customer.FirstName + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataReader Reader = SqlCmd.ExecuteReader();
-            Reader.Read();
-            int customerID = Reader.GetInt32(0);
-            return customerID;
+            try
+            {
+                string query = "SELECT CUSTOMER_ID FROM TBL_CUSTOMERS WHERE CUSTOMER_FIRSTNAME = '" + customer.FirstName + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataReader Reader = SqlCmd.ExecuteReader();
+                Reader.Read();
+                int customerID = Reader.GetInt32(0);
+                return customerID;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }          
         }
         public static int GetCustomerID(string customer)
         {
             OpenSqlConnection();
 
-            string query = "SELECT CUSTOMER_ID FROM TBL_CUSTOMERS WHERE CUSTOMER_FIRSTNAME = '" + customer + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataReader Reader = SqlCmd.ExecuteReader();
-            Reader.Read();
-            int customerID = Reader.GetInt32(0);
-            return customerID;
+            try
+            {
+                string query = "SELECT CUSTOMER_ID FROM TBL_CUSTOMERS WHERE CUSTOMER_FIRSTNAME = '" + customer + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataReader Reader = SqlCmd.ExecuteReader();
+                Reader.Read();
+                int customerID = Reader.GetInt32(0);
+                return customerID;
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }       
         }
-
-
         public static void OwnerUpdate(string owner, string itemID)
         {
             OpenSqlConnection();
 
-            string query = "UPDATE TBL_ITEMS SET ITEM_OWNER = '" + owner + "' WHERE ITEM_ID = '" + itemID + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(itemsTableName);
-            SqlCmd.ExecuteNonQuery();
+            try
+            {
+                string query = "UPDATE TBL_ITEMS SET ITEM_OWNER = '" + owner + "' WHERE ITEM_ID = '" + itemID + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
+                DataTable Table = new DataTable(itemsTableName);
+                SqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }     
         }
         public static void MarkAsSold(string itemID)
         {
             OpenSqlConnection();
 
-            string query = "UPDATE TBL_ITEMS SET ITEM_ISSOLD = 1 WHERE ITEM_ID = '" + itemID + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(itemsTableName);
-            SqlCmd.ExecuteNonQuery();
+            try
+            {
+                string query = "UPDATE TBL_ITEMS SET ITEM_ISSOLD = 1 WHERE ITEM_ID = '" + itemID + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
+                DataTable Table = new DataTable(itemsTableName);
+                SqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }   
         }
-        public static void IDUpdate(string itemID, int newownerID)
+        public static void ItemOwnerIDUpdate(string itemID, int newownerID)
         {
             OpenSqlConnection();
 
-            string query = "UPDATE TBL_ITEMS SET ITEM_CUSTOMER_ID = '" + newownerID + "' WHERE ITEM_ID = '" + itemID + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(itemsTableName);
-            SqlCmd.ExecuteNonQuery();
+            try
+            {
+                string query = "UPDATE TBL_ITEMS SET ITEM_CUSTOMER_ID = '" + newownerID + "' WHERE ITEM_ID = '" + itemID + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
+                DataTable Table = new DataTable(itemsTableName);
+                SqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }
         }
 
         public static void InsertSoldDate(string itemID, string date)
         {
             OpenSqlConnection();
 
-            string query = "UPDATE TBL_ITEMS SET ITEM_SOLDDATE = '" + date + "' WHERE ITEM_ID = '" + itemID + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(itemsTableName);
-            SqlCmd.ExecuteNonQuery();
+            try
+            {
+                string query = "UPDATE TBL_ITEMS SET ITEM_SOLDDATE = '" + date + "' WHERE ITEM_ID = '" + itemID + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
+                DataTable Table = new DataTable(itemsTableName);
+                SqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }
         }
 
         public static void InsertSoldPrice(string itemID, int price)
         {
             OpenSqlConnection();
 
-            string query = "UPDATE TBL_ITEMS SET ITEM_SOLDPRICE = '" + price + "' WHERE ITEM_ID = '" + itemID + "'";
-            SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
-            SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
-            DataTable Table = new DataTable(itemsTableName);
-            SqlCmd.ExecuteNonQuery();
+            try
+            {
+                string query = "UPDATE TBL_ITEMS SET ITEM_SOLDPRICE = '" + price + "' WHERE ITEM_ID = '" + itemID + "'";
+                SqlCommand SqlCmd = new SqlCommand(query, DataBaseConnection);
+                SqlDataAdapter Adapter = new SqlDataAdapter(SqlCmd);
+                DataTable Table = new DataTable(itemsTableName);
+                SqlCmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+                throw;
+            }
+            finally
+            {
+                DataBaseConnection.Close();
+            }
         }
 
 

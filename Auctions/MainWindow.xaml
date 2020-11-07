@@ -18,16 +18,14 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <Grid>
-                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="LOGO" Margin="100" ></Label>
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="Projekt Dom Aukcyjny. - Kacper Bok" Margin="100" ></Label>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <Button Content="Rozpocznij aukcje" Click="buttonClick_MainWindowRozpocznijAukcje"/>
-            <Button Content="Dodaj przedmiot" Click="buttonClick_MainWindowDodajPrzedmiot"/>
-            <Button Content="Dodaj klienta" Click="buttonClick_MainWindowDodajKlienta"/>
+            <Button Width="200" Content="Rozpocznij aukcje" Click="buttonClick_MainWindowRozpocznijAukcje"/>
+            <Button Width="200" Content="Dodaj przedmiot" Click="buttonClick_MainWindowDodajPrzedmiot"/>
+            <Button Width="200" Content="Dodaj klienta" Click="buttonClick_MainWindowDodajKlienta"/>
         </StackPanel>
         <Button Grid.Row="1" VerticalAlignment="Bottom" Content="Wyjście" Click = "buttonClick_MainWindowWyjscie"/>
-       
-
     </Grid>
 </Window>

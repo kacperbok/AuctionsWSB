@@ -23,7 +23,7 @@ namespace Auctions
         {
             InitializeComponent();
             Connections.LoadTableToDataGrid(Connections.loadItemsTableQuery, dataGridAddItem, Connections.itemsTableName);
-            Connections.FillComboBox("CUSTOMER_FIRSTNAME", "TBL_CUSTOMERS", comboBox_Wlasciciel);
+            Connections.FillComboBox(Connections.customersFirstNameColumn, Connections.customersTableName, comboBox_Wlasciciel);
         }
         private void button_AddItemWyjscie(object sender, RoutedEventArgs e)
         {

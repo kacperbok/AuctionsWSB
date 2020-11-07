@@ -49,7 +49,7 @@ namespace Auctions
                 }
                 catch (Exception ex)
                 {
-                    System.Windows.MessageBox.Show(ex + "");
+                    System.Windows.MessageBox.Show(ex.Message);
                 }
             }
             else { }           

@@ -22,7 +22,6 @@ namespace Auctions
         public AddCustomers()
         {
             InitializeComponent();
-            // Auto DataGridUpdate
             Connections.LoadTableToDataGrid(Connections.loadCustomersTableQuery, dataGridAddCustomer, Connections.customersTableName);
         }
 
@@ -39,6 +38,7 @@ namespace Auctions
         {
             Connections.LoadTableToDataGrid(Connections.loadCustomersTableQuery, dataGridAddCustomer, Connections.customersTableName);
         }
+
 
         private void buttonClick_AddCustomersDodaj(object sender, RoutedEventArgs e)
         {

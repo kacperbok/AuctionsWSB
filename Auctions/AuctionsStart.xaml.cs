@@ -156,8 +156,7 @@ namespace Auctions
             ItemID = id;
             label_Data.Content = DateTime.Now.ToString();
             ReadItem();
-            Connections.FillComboBox(Connections.customersFirstNameColumn, Connections.customersTableName, comboBox_licytujacy);
-            
+            Connections.FillComboBox(Connections.customersFirstNameColumn, Connections.customersTableName, comboBox_licytujacy); 
         }
 
         public void ReadItem()
@@ -193,17 +192,17 @@ namespace Auctions
                     textbox_Oferta.Text = ItemStartPrice.ToString();
                 }
 
-                ItemMinimalPrice = Reader.GetInt32(3);
-
                 ItemOwner = Reader.GetString(4);
                 if (!string.IsNullOrEmpty(ItemOwner))
                 {
                     label_Wlasciciel.Content = Reader.GetString(4);
                 }
+
+                ItemMinimalPrice = Reader.GetInt32(3);   
             }
-            catch (Exception EX )
+            catch (Exception ex)
             {
-                System.Windows.MessageBox.Show(EX + "");
+                System.Windows.MessageBox.Show(ex.Message);
                 throw;
             }     
         }
@@ -239,7 +238,6 @@ namespace Auctions
                             this.Close();
                             newWindow.Show();
                         }
-                        
                     }
                     else
                     {
@@ -273,7 +271,7 @@ namespace Auctions
 
                     Connections.MarkAsSold(ItemID);
                     Connections.OwnerUpdate(BiddingPerson, ItemID);
-                    Connections.IDUpdate(ItemID, ItemNewOwnerId);
+                    Connections.ItemOwnerIDUpdate(ItemID, ItemNewOwnerId);
                     ItemSoldDate = DateTime.Now.ToString();
                     Connections.InsertSoldDate(ItemID, ItemSoldDate);
                     Connections.InsertSoldPrice(ItemID, ItemSoldPrice);
